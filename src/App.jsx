@@ -4,43 +4,24 @@ import TopNavbar from "./components/TopNavbar";
 import ChatSectionPremium from "./components/ChatSectionPremium";
 
 export default function App() {
-  const [chatHistory, setChatHistory] = useState([]);
-  const [activeChat, setActiveChat] = useState(null);
-  const [isLoaded, setIsLoaded] = useState(false);
-
-  // Load chats once
-  useEffect(() => {
+  const [chatHistory, setChatHistory] = useState(() => {
     try {
       const savedChats = localStorage.getItem("kunChats");
-
-      if (savedChats) {
-        const parsedChats = JSON.parse(savedChats);
-
-        setChatHistory(parsedChats);
-
-        if (parsedChats.length > 0) {
-          setActiveChat(parsedChats[0].id);
-        }
-      }
+      return savedChats ? JSON.parse(savedChats) : [];
     } catch (error) {
       console.error("Failed to load chats:", error);
+      return [];
     }
-
-    setIsLoaded(true);
-  }, []);
+  });
+  const [activeChat, setActiveChat] = useState(() => chatHistory[0]?.id || null);
 
   // Save chats
   useEffect(() => {
-    if (!isLoaded) return;
-
-    localStorage.setItem(
-      "kunChats",
-      JSON.stringify(chatHistory)
-    );
-  }, [chatHistory, isLoaded]);
+    localStorage.setItem("kunChats", JSON.stringify(chatHistory));
+  }, [chatHistory]);
 
   return (
-    <div className="h-screen flex flex-col bg-[#0f0f0f]">
+    <div className="h-screen flex flex-col bg-[#090b0e] text-white antialiased">
       <TopNavbar />
 
       <div className="flex flex-1 overflow-hidden">
