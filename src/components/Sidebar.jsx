@@ -22,26 +22,16 @@ export default function Sidebar({
     );
   };
 
- const deleteChat = (chatId) => {
+  const deleteChat = (chatId) => {
   const updatedChats = chatHistory.filter(
     (chat) => chat.id !== chatId
   );
-
-  setChatHistory(updatedChats);
 
   localStorage.setItem(
     "kunChats",
     JSON.stringify(updatedChats)
   );
 
-  if (activeChat === chatId) {
-    setActiveChat(
-      updatedChats.length
-        ? updatedChats[0].id
-        : null
-    );
-  }
-};
 
   window.dispatchEvent(
     new CustomEvent("delete-chat", {
@@ -70,7 +60,7 @@ export default function Sidebar({
   className="w-full flex items-center justify-center gap-2 bg-[#F26A3D] hover:bg-[#e65f31] text-white py-3 rounded-xl font-medium transition-all cursor-pointer hover:scale-[1.02]"
 >
           <Plus size={18} />
-          New Chat
+          New Chats
         </button>
 
       </div>
